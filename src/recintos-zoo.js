@@ -55,6 +55,7 @@ class RecintosZoo {
                 if(!temOutroMacaco){
                     continue;
                 }
+            }
 
                 //Verifica se o recinto já possui carnívoro e impede de adicionar outro carnívoro
                 const temCarnivoro = recinto.animais.some(a => this.animais[a.especie.toUpperCase()].carnivoro);
@@ -64,7 +65,8 @@ class RecintosZoo {
 
             //Verificca se há espaço suficiente no recinto
             if (espacoLivre >= quantidade * infoAnimal.tamanho) {
-                const descricaoRecinto = `Recinto ${recinto.numero} (espaço livre: ${espacoLivre}, total: ${recinto.tamanho})`;
+                const espacoRestante = espacoLivre - (quantidade * infoAnimal.tamanho);
+                const descricaoRecinto = `Recinto ${recinto.numero} (espaço livre: ${espacoRestante}, total: ${recinto.tamanho})`;
                 const animaisNoRecinto = recinto.animais.map(a => `${a.especie} (${a.quantidade})`).join(', ');
                 recintosViaveis.push(`${descricaoRecinto} | Animais no recinto: ${animaisNoRecinto}`);
 
@@ -72,11 +74,20 @@ class RecintosZoo {
 
     }
 
-}
+    // Ordena os recintos viáveis pelo número do recinto
+    recintosViaveis.sort((a, b) => {
+        const numeroA = parseInt(a.match(/Recinto (\d+)/)[1], 10);
+        const numeroB = parseInt(b.match(/Recinto (\d+)/)[1], 10);
+        return numeroA - numeroB;
+    });
+
+
     
     //Retorna os recintos viáveis ou um erro se nenhum for encontrado
     return recintosViaveis.length > 0 ? { recintosViaveis } : { erro: "Não há recinto viável" };
 }
 }
+
+
 
 export { RecintosZoo as RecintosZoo };
