@@ -39,8 +39,37 @@ class RecintosZoo {
                 (total, a) => total + a.quantidade * this.animais[a.especie.toUpperCase()].tamanho, 0
             );
 
-            if (infoAnimal.biomas.includes(recinto.bioma) && espacoLivre >= quantidade * infoAnimal.tamanho) {
-                recintosViaveis.push(`Recinto ${recinto.numero} (espaço livre: ${espacoLivre} total: ${recinto.tamanho})`);
+            //Verifica se o bioma do recinto é compatível
+            if (!infoAnimal.biomas.includes(recinto.bioma)){
+                continue;
+            }
+
+            //Regras específicas para hipopótamos
+            if(animal === 'HIPOPOTAMO' && recinto.bioma !== 'savana e rio'){
+                continue;
+            }
+
+            //Regras específicas para macacos
+            if (animal === 'MACACO' && infoAnimal.precisoCompanhia) {
+                const temOutroMacaco = recinto.animais.some(a => a.especie === 'macaco');
+                if(!temOutroMacaco){
+                    continue;
+                }
+
+                //Verifica se o recinto já possui carnívoro e impede de adicionar outro carnívoro
+                const temCarnivoro = recinto.animais.some(a => this.animais[a.especie.toUpperCase()].carnivoro);
+            if (temCarnivoro && infoAnimal.carnivoro) {
+                continue;
+            }
+
+            //Verificca se há espaço suficiente no recinto
+            if (espacoLivre >= quantidade * infoAnimal.tamanho) {
+                const descricaoRecinto = `Recinto ${recinto.numero} (espaço livre: ${espacoLivre}, total: ${recinto.tamanho})`;
+                const animaisNoRecinto = recinto.animais.map(a => `${a.especie} (${a.quantidade})`).join(', ');
+                recintosViaveis.push(`${descricaoRecinto} | Animais no recinto: ${animaisNoRecinto}`);
+
+            }
+
     }
 
 }
