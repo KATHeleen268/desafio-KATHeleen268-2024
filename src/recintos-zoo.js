@@ -68,7 +68,7 @@ class RecintosZoo {
                 const espacoRestante = espacoLivre - (quantidade * infoAnimal.tamanho);
                 const descricaoRecinto = `Recinto ${recinto.numero} (espaço livre: ${espacoRestante}, total: ${recinto.tamanho})`;
                 const animaisNoRecinto = recinto.animais.map(a => `${a.especie} (${a.quantidade})`).join(', ');
-                recintosViaveis.push(`${descricaoRecinto} | Animais no recinto: ${animaisNoRecinto}`);
+                recintosViaveis.push(descricaoRecinto);
 
             }
 
