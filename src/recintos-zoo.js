@@ -52,7 +52,7 @@ class RecintosZoo {
             //Regras específicas para macacos
             if (animal === 'MACACO' && infoAnimal.precisoCompanhia) {
                 const temOutroMacaco = recinto.animais.some(a => a.especie === 'macaco');
-                if(!temOutroMacaco){
+                if(recinto.animais.length > 0 &&!temOutroMacaco){
                     continue;
                 }
             }
@@ -66,7 +66,7 @@ class RecintosZoo {
             //Verificca se há espaço suficiente no recinto
             if (espacoLivre >= quantidade * infoAnimal.tamanho) {
                 const espacoRestante = espacoLivre - (quantidade * infoAnimal.tamanho);
-                const descricaoRecinto = `Recinto ${recinto.numero} (espaço livre: ${espacoRestante}, total: ${recinto.tamanho})`;
+                const descricaoRecinto = `Recinto ${recinto.numero} (espaço livre: ${espacoRestante} total: ${recinto.tamanho})`;
                 const animaisNoRecinto = recinto.animais.map(a => `${a.especie} (${a.quantidade})`).join(', ');
                 recintosViaveis.push(descricaoRecinto);
 
